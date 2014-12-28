@@ -4,7 +4,7 @@ var calculating = 0;
 var blockcnt = 0;
 var uuid = 0;
 var attempt_id = 0;
-var worker = new Worker("/js/worker2.js?date="+ new Date().getTime());
+var worker = new Worker("/static/js/worker2.js?date="+ new Date().getTime());
 var form_sv = 0;
 var email = 0;
 
