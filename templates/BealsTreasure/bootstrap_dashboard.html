@@ -1,0 +1,85 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{{STATIC_URL}}favicon.ico">
+
+    <title>The Search For Beals Treasure!</title>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery=1 %}
+
+    <!-- Custom styles for this template -->
+    <link href="{{STATIC_URL}}css/dashboard.css" rel="stylesheet">
+
+    <script type="text/javascript" src="{{STATIC_URL}}js/demo.js"></script>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+      _gaq.push(['_setAccount', 'UA-42067175-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">The Search For Beals Treasure!</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="/api">REST API</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            {% include "BealsTreasure/links.html" %}
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div id="headerBox" style="overflow:hidden; margin:auto; width:100%">
+            <div id="headertitle" style="float:left; margin:0; width:40%;">
+              <h1 class="page-header">{% block header-title %}{% endblock %}</h1>
+            </div>
+            <div id="headerbuttons" style="float:left; text-align:right; margin:0; width:60%;">
+              <h1 class="page-header">{% block header-buttons %}{% endblock %}</h1>
+            </div>
+          </div>
+          <div id="contentBox" style="overflow:hidden; width:100%">
+            {% block content %}{% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
