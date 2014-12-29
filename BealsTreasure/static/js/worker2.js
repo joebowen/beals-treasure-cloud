@@ -2,6 +2,7 @@ importScripts("BigInt.js");
 importScripts("bigInteger.js");
 importScripts("js-inflate.js");
 importScripts("js-unzip.js");
+importScripts("lz-string.min.js");
 
 function pow(base, exp)
 {
@@ -49,37 +50,24 @@ function httpGetandParse(exp, table)
 {
   var date = new Date().getTime();
 
-  response = doRequest("/data/" + exp + ".zip?date=" + date);
+  response = doRequest("/data/" + exp + ".txt?date=" + date);
 
   postMessage({console: "response.length = " + response.length});
 
-  var unzipper = new JSUnzip(response);
-  if (unzipper.isZipFile()) {
-
-    unzipper.readEntries();
-    
-    postMessage({console: "unzipper.entries.length = " + unzipper.entries.length}); 
-    
-    for (var i = 0; i < unzipper.entries.length; i++) {
-      var entry = unzipper.entries[i];
-      if (entry.compressionMethod === 0) {
-        // Uncompressed
-        var data = entry.data; 
-      } else if (entry.compressionMethod === 8) {
-        // Deflated
-        var data = JSInflate.inflate(entry.data);
-        postMessage({console: "entry.data.length = " + entry.data.length});
-      }
-    }
-  }
+  data = LZString.decompressFromBase64(response);
   
   postMessage({console: "data.length = " + data.length});
 
   for (i in data)
   {
     result = data[i].split(",");
-    table[btoa(result[0])] = btoa(result[1]);
+    table.push({
+      key:   result[0],
+      value: result[1]
+    });
   }
+
+  postMessage({console: "table.length = " + table.length});
 
   return table;
 }
@@ -88,15 +76,15 @@ postMessage({resultval: -2, A: "-", B: "-", result: "-", progress: "-", progress
 
 var data_loaded = 0;
 var max_loaded = 0;
-var ztable = new Array();
+var ztable = [];
 
 onmessage = function (oEvent) {
   var max_basei = 10000;
   var xi = oEvent.data.x;
   var yi = oEvent.data.y;
 
-  var powx = httpGetandParse(xi, new Array());
-  var powy = httpGetandParse(yi, new Array());
+  var powx = httpGetandParse(xi, []);
+  var powy = httpGetandParse(yi, []);
 
   if ((data_loaded == 0) || (max_loaded < Math.max(xi,yi)+10))
   {
@@ -114,6 +102,9 @@ onmessage = function (oEvent) {
 
   for (var A_cnt = 3; A_cnt <= max_basei; A_cnt++)
   {
+    postMessage({console: "A_cnt = " + A_cnt});
+    postMessage({console: "powx = " + powx});
+    postMessage({console: "powx[A_cnt] = " + powx[A_cnt]});
     var A_pow = BigInteger(powx[A_cnt]);
     for (var B_cnt = 3; B_cnt <= A_cnt; B_cnt++)
     {

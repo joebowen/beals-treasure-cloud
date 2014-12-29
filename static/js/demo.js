@@ -34,10 +34,10 @@ worker.onmessage = function (event) {
       var y = event.data.y;
       var n = event.data.n;
       document.getElementById("prize").innerHTML = event.data.id;
-      httpGet("/members/savework.php?&result=true&x=" + x + "&m=" + m + "&y=" + y + "&n=" + n);
+      httpGet("/savework?&result=true&x=" + x + "&m=" + m + "&y=" + y + "&n=" + n);
       return;
     }  
-    httpGet("/members/savework.php?result=false&memory=0&uuid=" + uuid + "&attemptid=" + attempt_id);
+    httpGet("/savework?result=false&memory=0&uuid=" + uuid + "&attemptid=" + attempt_id);
     blockcnt = blockcnt + 1;
     start();
   }
@@ -46,13 +46,12 @@ worker.onmessage = function (event) {
 function start()
 {
   var date = new Date().getTime();
-  var result = httpGet("/members/getwork.php?username="+ email + "&date=" + date).split(",");
+  var result = httpGet("/getwork?username="+ email + "&date=" + date).split(",");
   document.getElementById("solved").innerHTML = blockcnt;
 
   var x = result[0];
   var y = result[1];
   uuid = result[2];
-  attempt_id = result[3];
 
   if (x == "") x = 1;
   if (y == "") y = 1;
@@ -63,7 +62,7 @@ function start()
   document.getElementById("B").innerHTML = "-";
   document.getElementById("status").innerHTML = "Loading...";
 
-  worker.postMessage({id: id, x: x, y: y});
+  worker.postMessage({id: uuid, x: x, y: y});
 }
 
 function autocalculateForm(form) 

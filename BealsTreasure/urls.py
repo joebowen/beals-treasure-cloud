@@ -1,6 +1,7 @@
 from django.conf.urls import url, patterns, include
 from BealsTreasure import views
 from django.contrib.auth.models import User
+from django.conf import settings
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='Home'),
@@ -20,4 +21,16 @@ urlpatterns = patterns('',
     url(r'^faq/how-can-i-join/$', views.faq_how_can_i_join, name='How can I join?'),
     url(r'^faq/i-found-something/$', views.faq_i_found_something, name='I think I found something!  What happens now?'),
     url(r'^faq/donations/$', views.faq_donations, name='Can I donate to the project?'),
+
+    url(r'^getwork$', views.getwork, name='getwork'),
+
+    url(r'^populate$', views.Populate, name='Populate'),
 )
+
+# UNDERNEATH your urlpatterns definition, add the following two lines:
+if settings.DEBUG:
+    urlpatterns += patterns(
+        'django.views.static',
+        (r'data/(?P<path>.*)',
+        'serve',
+        {'document_root': settings.MEDIA_ROOT}), )

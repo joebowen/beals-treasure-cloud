@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.db import models
 
 # Create your models here.
@@ -9,8 +11,7 @@ class Values(models.Model):
     max_base = models.BigIntegerField()
 
     class Meta:
-        managed = False
-        db_table = 'values'
+        db_table = 'exp_values'
 
 
 class Attempts(models.Model):
@@ -18,7 +19,6 @@ class Attempts(models.Model):
     start_time = models.DateTimeField(db_column="Timestamp", auto_now_add=True)
 
     class Meta:
-        managed = False
         db_table = 'attempts'
 
 
@@ -28,5 +28,4 @@ class Verifys(models.Model):
     user_id = models.CharField(max_length=255)
 
     class Meta:
-        managed = False
-        db_table = 'uc_verifys'
+        db_table = 'verifys'

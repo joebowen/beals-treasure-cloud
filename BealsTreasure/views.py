@@ -1,4 +1,10 @@
 from django.shortcuts import render
+from django.shortcuts import HttpResponse
+from models import *
+from django.db import connection
+import lzstring
+import math
+import gmpy2
 
 # Create your views here.
 
@@ -49,3 +55,121 @@ def faq_i_found_something(request):
 
 def faq_donations(request):
     return render(request, "BealsTreasure/faq/donations.html")
+
+def getwork(request):
+    m, n, x, uuid = getNewWork(10000, request.GET["username"])
+    response = ""
+    response += str(m)
+    response += "," + str(n)
+    if x != 0:
+        response += "," + str(x)
+
+    response += "," + str(uuid)
+
+    return HttpResponse(response)
+
+def getExpValues():
+    count = checkBlock()
+    max = findMax()
+    exp_m = max+1
+    exp_n = max+1
+    for x in xrange(3, max + 1):
+        for y in xrange(3, max + 1):
+            try:
+                count[x][y]
+            except IndexError:
+                exp_m = x
+                exp_n = y
+                return exp_m, exp_n
+
+def getNewWork(max_base, user_id):
+  
+    base_x = 0
+    value_id = getUnfinishedBlock()
+
+    if value_id is None:
+        exp_m, exp_n = getExpValues()
+
+        values_model = Values(exp_m = exp_m, exp_n = exp_n, max_base = max_base, base_x = base_x)
+        values_model.save()
+
+        value_id = values_model.id
+
+        attempt_model = Attempts(valuekey = values_model)
+        attempt_model.save()
+
+        AttemptKey = attempt_model.id
+
+    else:
+        values_model = Values.objects.filter(pk = value_id)
+
+        attempt_model = Attempts(ValueKey = values_model)
+        attempt_model.save()
+
+        AttemptKey = attempt_model.id
+
+    return exp_m, exp_n, base_x, AttemptKey
+
+def checkBlock():
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT COUNT(v.id) as count, a.ValueKey as ValueKey FROM verifys v, attempts a WHERE v.AttemptKey = a.id GROUP BY v.id ORDER BY COUNT(v.id)')
+    count = [[]]
+    for row in cursor.fetchall():
+        count[row['exp_m']][row['exp_n']] = row['count']
+
+    return count
+
+
+def getUnfinishedBlock():
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT AttemptKey FROM verifys WHERE AttemptKey IN (SELECT AttemptKey FROM (SELECT COUNT(id) as count, AttemptKey FROM verifys WHERE AttemptKey IN (SELECT v.AttemptKey FROM verifys v JOIN attempts a ON a.id = v.AttemptKey) GROUP BY AttemptKey) AS t)')
+    AttemptKey = cursor.fetchone()
+
+    if AttemptKey == 0:
+        AttemptKey = None
+
+    return AttemptKey
+
+def findMax():
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT MAX(exp_m) as exp_m, MAX(exp_n) as exp_n FROM exp_values')
+    row = cursor.fetchone()
+
+    if row[0] == None and row[1] == None:
+        return 3
+
+    return max(row[0], row[1])
+
+def Populate(request):
+    cursor = connection.cursor()
+    count_by = 10
+
+    cursor.execute('SELECT MAX(exp_m) as exp_m, MAX(exp_n) as exp_n FROM exp_values')
+    row = cursor.fetchone()
+
+    if row[0] == None and row[1] == None:
+        y = 3
+        x = 3
+    else:
+        y = row[0]
+        x = row[1]
+
+    for exp in xrange(1, max(y,x) + count_by):
+      try:
+        with open('data/' + str(exp) + '.txt'):
+          pass
+      except IOError:
+        x = lzstring.LZString()
+
+        value = ""
+        for base in xrange(1, 10000):
+            value += "%s,%s\n" % (str(base), str(gmpy2.mpz(base)**exp))
+
+        output = open('data/' + str(exp) + '.txt', 'w')
+        output.write(x.compressToBase64(value))
+        output.close()
+
+    return HttpResponse("success")
