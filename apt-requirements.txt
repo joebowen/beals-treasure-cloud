@@ -1,3 +1,0 @@
-libmpc-dev
-libmpfr-dev
-libgmp3-dev
