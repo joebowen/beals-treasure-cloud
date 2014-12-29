@@ -19,21 +19,21 @@ function hashCode(s){
 }
 
 function gcd(x, y) {
-	while (y != 0) {
-		var z = x % y;
-		x = y;
-		y = z;
-	}
-	return x;
+  while (y != 0) {
+    var z = x % y;
+    x = y;
+    y = z;
+  }
+  return x;
 }
 
 function gcd_big(x, y) {
-        while (!BigInteger.isZero(y)) {
-                var z = x.modPow(1, y);
-                x = y;
-                y = z;
-        }
-        return x;
+  while (!BigInteger.isZero(y)) {
+    var z = x.modPow(BigInteger(1), y);
+    x = y;
+    y = z;
+  }
+  return x;
 }
 
 function doRequest(url) {
@@ -46,28 +46,36 @@ function doRequest(url) {
     return xmlhttp.responseText;
 }
 
-function httpGetandParse(exp, table)
+function httpGetandParse(exp, table, backwards)
 {
   var date = new Date().getTime();
 
   response = doRequest("/data/" + exp + ".txt?date=" + date);
 
-  postMessage({console: "response.length = " + response.length});
-
   data = LZString.decompressFromBase64(response);
-  
-  postMessage({console: "data.length = " + data.length});
 
-  for (i in data)
+  var lines = data.match(/^.*((\r\n|\n|\r)|$)/gm);
+
+  var arrayLength = lines.length;
+  for (var i = 0; i < arrayLength; i++)
   {
-    result = data[i].split(",");
-    table.push({
-      key:   result[0],
-      value: result[1]
-    });
+    result = lines[i].split(",");
+    if (result[0] && result[1])
+    {
+      if (backwards)
+      {
+        table[result[1].replace(/\n/g,'')] = result[0].replace(/\n/g,'');
+        //postMessage({console: "ztable[" + result[1].replace(/\n/g,'') + "] = " + table[result[1].replace(/\n/g,'')]});
+      }
+      else
+      {
+        table[result[0].replace(/\n/g,'')] = result[1].replace(/\n/g,'');
+        //postMessage({console: "table[" + result[0].replace(/\n/g,'') + "] = " + table[result[0].replace(/\n/g,'')]});
+      }
+    }
   }
 
-  postMessage({console: "table.length = " + table.length});
+  //postMessage({console: "ztable[91] = " + table[91]});
 
   return table;
 }
@@ -75,48 +83,52 @@ function httpGetandParse(exp, table)
 postMessage({resultval: -2, A: "-", B: "-", result: "-", progress: "-", progress_calc: "-"});
 
 var data_loaded = 0;
-var max_loaded = 0;
-var ztable = [];
+var max_loaded = 2;
+var ztable = {};
 
 onmessage = function (oEvent) {
   var max_basei = 10000;
   var xi = oEvent.data.x;
   var yi = oEvent.data.y;
 
-  var powx = httpGetandParse(xi, []);
-  var powy = httpGetandParse(yi, []);
+  var powx = httpGetandParse(xi, {}, false);
+  var powy = httpGetandParse(yi, {}, false);
 
   if ((data_loaded == 0) || (max_loaded < Math.max(xi,yi)+10))
   {
     for ( var i = max_loaded + 1; i < Math.max(xi,yi)+10; i++)
     { 
-      ztable = httpGetandParse(i, ztable);
-      postMessage({console: "ztable.length = " + ztable.length, resultval: -2, A: "-", B: "-", result: "Downloading Data...", progress: Math.round(((i-max_loaded) / (Math.max(xi,yi)+10-max_loaded))*100), progress_calc: "-"});
+      ztable = httpGetandParse(i, ztable, true);
+      postMessage({resultval: -2, A: "-", B: "-", result: "Downloading Data...", progress: Math.round(((i-max_loaded) / (Math.max(xi,yi)+10-max_loaded))*100), progress_calc: "-"});
     }
     max_loaded = Math.max(xi,yi)+10;
     data_loaded = 1;
   }
+
+  //postMessage({console: "ztable[91] = " + ztable[91]});
 
   var cnt = 0;
   postMessage({resultval: -2, A: "-", B: "-", result: "Calculating...", progress: "100", progress_calc: "0"});
 
   for (var A_cnt = 3; A_cnt <= max_basei; A_cnt++)
   {
-    postMessage({console: "A_cnt = " + A_cnt});
-    postMessage({console: "powx = " + powx});
-    postMessage({console: "powx[A_cnt] = " + powx[A_cnt]});
-    var A_pow = BigInteger(powx[A_cnt]);
+    var A_pow = BigInteger(Number(powx[A_cnt]));
     for (var B_cnt = 3; B_cnt <= A_cnt; B_cnt++)
     {
-      if(gcd(A_cnt, B_cnt)) 
+      if(gcd(A_cnt, B_cnt)==1)
       {
-        var Cz = BigInteger.add(A_pow,BigInteger(powy[B_cnt]));
-        var r = ztable[Cz.toString()];
-        if (r)
+        var Cz = BigInteger.add(A_pow,BigInteger(Number(powy[B_cnt])));
+        if (ztable[Cz.toString()])
         {
-          if (gcd_big(BigInteger(A_cnt),Cz)&&gcd_big(BigInteger(B_cnt),Cz))
+          if ((gcd_big(BigInteger(A_cnt),Cz)==1)&&(gcd_big(BigInteger(B_cnt),Cz)==1))
           {
-            postMessage({id: oEvent.data.id ,resultval: 1, A: A_cnt, B: B_cnt, x: xi, y: yi, result: "Please contact us, you may have found a solution."});
+            postMessage({console: "ztable[Cz.toString()] = " + ztable[Cz.toString()]});
+            postMessage({console: "Cz = " + Cz});
+            postMessage({console: "B_cnt = " + BigInteger(B_cnt)});
+            postMessage({console: "A_cnt = " + BigInteger(A_cnt)});
+            postMessage({console: "gcd = " + gcd_big(BigInteger(A_cnt),Cz) + " " + gcd_big(BigInteger(B_cnt),Cz)});
+            postMessage({id: oEvent.data.id ,resultval: 1, A: A_cnt, B: B_cnt, x: xi, y: yi, m: A_cnt, n:B_cnt, result: "Please contact us, you may have found a solution."});
+            exit;
           }
         }
       }
