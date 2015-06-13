@@ -22,7 +22,7 @@ PROJECT_PATH = os.path.abspath(PROJECT_PATH)
 SECRET_KEY = '$&_+89(gj$^qy2%zmalzldd=fx(7iore&g1lix&69h69n-n%i0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = False
 
