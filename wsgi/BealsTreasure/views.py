@@ -220,4 +220,4 @@ def Completed(request):
 
     # render(request, "BealsTreasure/completed.html")
 
-    return blocks
+    return HttpResponse(blocks)
