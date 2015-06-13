@@ -8,7 +8,7 @@ this.tooltip1 = function(){
 	$("a.tooltip1").hover(function(e){											  
 		this.t = this.title;
 		this.title = "";									  
-		$("body").append("<p id='tooltip'>"+ this.t +"</p>");
+		$("body").append("<p id='tooltip1'>"+ this.t +"</p>");
 		$("#tooltip1")
 			.css("top",(e.pageY - xOffset) + "px")
 			.css("left",(e.pageX + yOffset) + "px")
