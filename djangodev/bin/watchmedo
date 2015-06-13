@@ -1,9 +1,0 @@
-#!/home/jbbowen/Desktop/beals_treasure_cloud/djangodev/bin/python
-# EASY-INSTALL-ENTRY-SCRIPT: 'watchdog==0.8.2','console_scripts','watchmedo'
-__requires__ = 'watchdog==0.8.2'
-import sys
-from pkg_resources import load_entry_point
-
-sys.exit(
-   load_entry_point('watchdog==0.8.2', 'console_scripts', 'watchmedo')()
-)

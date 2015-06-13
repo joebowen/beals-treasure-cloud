@@ -1,5 +1,7 @@
-# Created by .ignore support plugin (hsz.mobi)
-.idea
-.idea/
-.elasticbeanstalk
-.elasticbeanstalk/
+*.py[co]
+*.sw[po]
+*.bak
+*.orig
+*~
+.project
+.pydevproject
