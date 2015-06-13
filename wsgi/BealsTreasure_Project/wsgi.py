@@ -7,13 +7,13 @@ For more information on this file, see
 https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/
 """
 
-from django.core.wsgi import get_wsgi_application
-import os
-import sys
+import sys  # @NoMove
 
-sys.path.insert(1, '..')
+sys.path.insert(1, '..')  # @NoMove
 
-import BealsTreasure
+from django.core.wsgi import get_wsgi_application  # @IgnorePep8
+import os  # @IgnorePep8
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE",
                       "settings")
