@@ -52,7 +52,7 @@
                                             document.getElementById("Reloader").innerHTML=xmlhttp.responseText;
                                             }
                                           }
-                                        xmlhttp.open("GET","/admin/completed.php?date="+new Date().getTime(),true);
+                                        xmlhttp.open("GET","/completed?date="+new Date().getTime(),true);
                                         xmlhttp.send();
                                         autoResize('Reloader');
                                         }
@@ -62,11 +62,6 @@
                                     </script>
                                 </div>
                             </div>
-                            <p>Note: Page maybe delayed up to 5 minutes from actual
-                                network.</p>
-
-                            <p>Note: Accuracy of graph not guaranteed, only to be used as
-                                general reference.</p></p>
                         </div>
                     </div>
                 </div>

@@ -49,6 +49,8 @@ urlpatterns = patterns(
     url(r'^getwork$', views.getwork, name='getwork'),
 
     url(r'^populate$', views.Populate, name='Populate'),
+
+    url(r'^completed$', views.Completed, name='Completed'),
 )
 
 # UNDERNEATH your urlpatterns definition, add the following two lines:

@@ -108,8 +108,11 @@ def getNewWork(max_base, user_id):
     if value_id is None:
         exp_m, exp_n = getExpValues()
 
-        values_model = Values(
-            exp_m=exp_m, exp_n=exp_n, max_base=max_base, base_x=base_x)
+        values_model = Values(exp_m=exp_m,
+                              exp_n=exp_n,
+                              max_base=max_base,
+                              base_x=base_x)
+
         values_model.save()
 
         value_id = values_model.id
@@ -210,3 +213,11 @@ def Populate(request):
             output.close()
 
     return HttpResponse("success")
+
+
+def Completed(request):
+    blocks = checkBlock()
+
+    # render(request, "BealsTreasure/completed.html")
+
+    return blocks
