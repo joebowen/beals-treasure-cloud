@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/
 
 from django.core.wsgi import get_wsgi_application
 import os
+import sys
+
+sys.path.insert(1, '..')
 
 import BealsTreasure
 
