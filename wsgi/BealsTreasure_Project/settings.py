@@ -68,7 +68,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bealstreasure',
         'USER': os.environ['OPENSHIFT_MYSQL_DB_USERNAME'],
-        'PASSWORD': os.environ['ROPENSHIFT_MYSQL_DB_PASSWORD'],
+        'PASSWORD': os.environ['OPENSHIFT_MYSQL_DB_PASSWORD'],
         'HOST': os.environ['OPENSHIFT_MYSQL_DB_HOSTNAME'],
         'PORT': os.environ['OPENSHIFT_MYSQL_DB_PORT'],
     }
