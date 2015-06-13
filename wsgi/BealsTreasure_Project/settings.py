@@ -114,5 +114,3 @@ REST_FRAMEWORK = {
 
 MEDIA_URL = '/data/'
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data')
-
-AWS_STORAGE_BUCKET_NAME = 'bealstreasure'
