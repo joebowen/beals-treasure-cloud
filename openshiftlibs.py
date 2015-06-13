@@ -96,7 +96,7 @@ def openshift_secure(default_keys, secure_function='make_secure_key'):
 # This function transforms default keys into per-deployment random keys;
 def make_secure_key(key_info):
     hashcode = key_info['hash']
-    key = key_info['variable']
+    key = key_info['variable']  # @UnusedVariable
     original = key_info['original']
 
     # These are the legal password characters
