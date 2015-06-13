@@ -13,8 +13,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Attempts',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('start_time', models.DateTimeField(auto_now_add=True, db_column=b'Timestamp')),
+                ('id', models.AutoField(
+                    verbose_name='ID',
+                    serialize=False,
+                    auto_created=True,
+                    primary_key=True)),
+                ('start_time', models.DateTimeField(
+                    auto_now_add=True, db_column=b'Timestamp')),
             ],
             options={
                 'db_table': 'attempts',
@@ -25,7 +30,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Values',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(
+                    verbose_name='ID',
+                    serialize=False,
+                    auto_created=True,
+                    primary_key=True)),
                 ('exp_m', models.BigIntegerField()),
                 ('exp_n', models.BigIntegerField()),
                 ('base_x', models.BigIntegerField(null=True, blank=True)),
@@ -40,8 +49,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Verifys',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('finish_time', models.DateTimeField(auto_now_add=True, db_column=b'Timestamp')),
+                ('id', models.AutoField(
+                    verbose_name='ID',
+                    serialize=False,
+                    auto_created=True,
+                    primary_key=True)),
+                ('finish_time', models.DateTimeField(
+                    auto_now_add=True, db_column=b'Timestamp')),
                 ('user_id', models.CharField(max_length=255)),
             ],
             options={

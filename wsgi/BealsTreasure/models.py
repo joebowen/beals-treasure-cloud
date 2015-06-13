@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Create your models here.
 
+# Create your models here.
 class Values(models.Model):
     exp_m = models.BigIntegerField()
     exp_n = models.BigIntegerField()
@@ -24,7 +24,8 @@ class Attempts(models.Model):
 
 class Verifys(models.Model):
     attemptkey = models.ForeignKey('Attempts', db_column='AttemptKey')
-    finish_time = models.DateTimeField(db_column="Timestamp", auto_now_add=True)
+    finish_time = models.DateTimeField(
+        db_column="Timestamp", auto_now_add=True)
     user_id = models.CharField(max_length=255)
 
     class Meta:

@@ -1,10 +1,11 @@
 import math
 import re
 
+
 class LZString:
 
     def __init__(self):
-        self.keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+        self.keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="  # nopep8
 
     def compress(self, uncompressed):
 
@@ -30,7 +31,7 @@ class LZString:
         for ii in range(len(uncompressed)):
             context_c = uncompressed[ii]
 
-            if not context_c in context_dictionary:
+            if context_c not in context_dictionary:
                 context_dictionary[context_c] = context_dictSize
                 context_dictSize += 1
                 context_dictionaryToCreate[context_c] = True
@@ -42,7 +43,7 @@ class LZString:
             else:
                 if context_w in context_dictionaryToCreate:
                     if ord(context_w[0]) < 256:
-                        for i in range(context_numBits):
+                        for i in range(context_numBits):  # @UnusedVariable
                             context_data_val = (context_data_val << 1)
 
                             if context_data_position == 15:
@@ -54,8 +55,9 @@ class LZString:
 
                         value = ord(context_w[0])
 
-                        for i in range(8):
-                            context_data_val = (context_data_val << 1) | (value & 1)
+                        for i in range(8):  # @UnusedVariable
+                            context_data_val = (
+                                context_data_val << 1) | (value & 1)
 
                             if context_data_position == 15:
                                 context_data_position = 0
@@ -68,7 +70,7 @@ class LZString:
                     else:
                         value = 1
 
-                        for i in range(context_numBits):
+                        for i in range(context_numBits):  # @UnusedVariable
                             context_data_val = (context_data_val << 1) | value
 
                             if context_data_position == 15:
@@ -82,8 +84,9 @@ class LZString:
 
                         value = ord(context_w[0])
 
-                        for i in range(16):
-                            context_data_val = (context_data_val << 1) | (value & 1)
+                        for i in range(16):  # @UnusedVariable
+                            context_data_val = (
+                                context_data_val << 1) | (value & 1)
 
                             if context_data_position == 15:
                                 context_data_position = 0
@@ -101,12 +104,13 @@ class LZString:
                         context_numBits += 1
 
                     context_dictionaryToCreate.pop(context_w, None)
-                    #del context_dictionaryToCreate[context_w]
+                    # del context_dictionaryToCreate[context_w]
                 else:
                     value = context_dictionary[context_w]
 
-                    for i in range(context_numBits):
-                        context_data_val = (context_data_val << 1) | (value & 1)
+                    for i in range(context_numBits):  # @UnusedVariable
+                        context_data_val = (
+                            context_data_val << 1) | (value & 1)
 
                         if context_data_position == 15:
                             context_data_position = 0
@@ -129,7 +133,7 @@ class LZString:
         if context_w != '':
             if context_w in context_dictionaryToCreate:
                 if ord(context_w[0]) < 256:
-                    for i in range(context_numBits):
+                    for i in range(context_numBits):  # @UnusedVariable
                         context_data_val = (context_data_val << 1)
 
                         if context_data_position == 15:
@@ -141,8 +145,9 @@ class LZString:
 
                     value = ord(context_w[0])
 
-                    for i in range(8):
-                        context_data_val = (context_data_val << 1) | (value & 1)
+                    for i in range(8):  # @UnusedVariable
+                        context_data_val = (
+                            context_data_val << 1) | (value & 1)
 
                         if context_data_position == 15:
                             context_data_position = 0
@@ -155,7 +160,7 @@ class LZString:
                 else:
                     value = 1
 
-                    for i in range(context_numBits):
+                    for i in range(context_numBits):  # @UnusedVariable
                         context_data_val = (context_data_val << 1) | value
 
                         if context_data_position == 15:
@@ -169,8 +174,9 @@ class LZString:
 
                     value = ord(context_w[0])
 
-                    for i in range(16):
-                        context_data_val = (context_data_val << 1) | (value & 1)
+                    for i in range(16):  # @UnusedVariable
+                        context_data_val = (
+                            context_data_val << 1) | (value & 1)
 
                         if context_data_position == 15:
                             context_data_position = 0
@@ -188,11 +194,11 @@ class LZString:
                     context_numBits += 1
 
                 context_dictionaryToCreate.pop(context_w, None)
-                #del context_dictionaryToCreate[context_w]
+                # del context_dictionaryToCreate[context_w]
             else:
                 value = context_dictionary[context_w]
 
-                for i in range(context_numBits):
+                for i in range(context_numBits):  # @UnusedVariable
                     context_data_val = (context_data_val << 1) | (value & 1)
 
                     if context_data_position == 15:
@@ -212,7 +218,7 @@ class LZString:
 
         value = 2
 
-        for i in range(context_numBits):
+        for i in range(context_numBits):  # @UnusedVariable
             context_data_val = (context_data_val << 1) | (value & 1)
 
             if context_data_position == 15:
@@ -276,8 +282,10 @@ class LZString:
 
             # python dont support bit operation with NaN like javascript
             enc1 = chr1 >> 2
-            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4 if not math.isnan(chr2) else 0)
-            enc3 = ((chr2 & 15 if not math.isnan(chr2) else 0) << 2) | (chr3 >> 6 if not math.isnan(chr3) else 0)
+            enc2 = ((chr1 & 3) << 4) | (
+                chr2 >> 4 if not math.isnan(chr2) else 0)
+            enc3 = ((chr2 & 15 if not math.isnan(chr2) else 0) << 2) | (
+                chr3 >> 6 if not math.isnan(chr3) else 0)
             enc4 = (chr3 if not math.isnan(chr3) else 0) & 63
 
             if math.isnan(chr2):
@@ -286,7 +294,8 @@ class LZString:
             elif math.isnan(chr3):
                 enc4 = 64
 
-            output += self.keyStr[enc1] + self.keyStr[enc2] + self.keyStr[enc3] + self.keyStr[enc4]
+            output += self.keyStr[enc1] + self.keyStr[enc2] + \
+                self.keyStr[enc3] + self.keyStr[enc4]
 
         return output
 
@@ -381,8 +390,8 @@ class LZString:
         enlargeIn = 4
         dictSize = 4
         numBits = 3
-        (entry, result, w, c) = ('', '', '', '')
-        (i, nnext, bits, resb, maxpower, power) = (0, 0, 0, 0, 0, 0)
+        (entry, result, w, c) = ('', '', '', '')  # @UnusedVariable
+        (i, nnext, bits, resb, maxpower, power) = (0, 0, 0, 0, 0, 0)  # nopep8 @UnusedVariable
 
         data_string = compressed
         data_val = ord(compressed[0])
@@ -390,7 +399,7 @@ class LZString:
         data_index = 1
 
         for i in range(3):
-            #dictionary[i] = i
+            # dictionary[i] = i
             dictionary[i] = ''
 
         bits = 0
