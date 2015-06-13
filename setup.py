@@ -5,13 +5,13 @@ from setuptools import setup
 
 setup(
     # GETTING-STARTED: set your app name:
-    name='YourAppName',
+    name='Beals Treasure',
     # GETTING-STARTED: set your app version:
-    version='1.0',
+    version='3.0',
     # GETTING-STARTED: set your app description:
     description='OpenShift App',
     # GETTING-STARTED: set author name (your name):
-    author='Your Name',
+    author='Joe Bowen',
     # GETTING-STARTED: set author email (your email):
     author_email='example@example.com',
     # GETTING-STARTED: set author url (your url):
