@@ -63,28 +63,16 @@ WSGI_APPLICATION = 'BealsTreasure_Project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-if 'RDS_DB_NAME' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bealstreasure',
+        'USER': os.environ['OPENSHIFT_MYSQL_DB_USERNAME'],
+        'PASSWORD': os.environ['ROPENSHIFT_MYSQL_DB_PASSWORD'],
+        'HOST': os.environ['OPENSHIFT_MYSQL_DB_HOSTNAME'],
+        'PORT': os.environ['OPENSHIFT_MYSQL_DB_PORT'],
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'django',
-            'USER': 'newuser',
-            'PASSWORD': 'password',
-            'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-            'PORT': '3306',
-        },
-    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
