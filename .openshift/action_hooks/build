@@ -1,0 +1,47 @@
+#!/bin/bash
+# This is a simple build script and will be executed on your CI system if 
+# available.  Otherwise it will execute while your application is stopped
+# before the deploy step.  This script gets executed directly, so it
+# could be python, php, ruby, etc.
+
+# Activate VirtualEnv in order to use the correct libraries
+
+cd ~/app-root/runtime/repo/
+
+: '
+dir=$(pwd)
+
+mkdir $dir/gcc
+
+wget ftp://gcc.gnu.org/pub/gcc/infrastructure/gmp-4.3.2.tar.bz2
+bunzip2 gmp-4.3.2.tar.bz2
+tar xvf gmp-4.3.2.tar
+cd gmp-4.3.2
+./configure --prefix=$dir/gcc
+make && make check && make install
+
+cd ..
+
+wget http://www.mpfr.org/mpfr-current/mpfr-3.1.2.tar.bz2
+bunzip2 mpfr-3.1.2.tar.bz2
+tar xvf mpfr-3.1.2.tar.bz2
+cd mpfr-3.1.2
+./configure --prefix=$dir/gcc --with-gmp=$dir/gcc
+make && make check && make install
+
+cd ..
+
+wget ftp://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz
+tar zxvf mpc-1.0.3.tar.gz
+cd mpc-1.0.3
+./configure --prefix=$dir/gcc --with-gmp=$dir/gcc --with-mpfr=$dir/gcc
+make && make check && make install
+
+cd ..
+
+wget https://pypi.python.org/packages/source/g/gmpy2/gmpy2-2.0.5.zip#md5=95f008bcab6372164358123f43e3f490
+unzip gmpy2-2.0.5.zip
+cd gmpy2-2.0.5
+python setup.py build_ext --prefix=$dir/gcc
+python setup.py install
+'
