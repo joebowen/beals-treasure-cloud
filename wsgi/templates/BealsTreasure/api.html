@@ -1,16 +1,25 @@
-{% extends "Openworm/bootstrap_dashboard.html" %}
+{% extends "BealsTreasure/bootstrap_dashboard.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
 
 {% block title %}REST API{% endblock %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "REST API" "api" %}
+{% endblock %}
+
 {% block content %}
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
     <h1 class="page-header">REST API Views</h1>
+    
     <ul>
-    {% for link in links %}
-    <li>
-    <a href="/api/{{link.pattern}}">{{link.pattern}}</a>
-    <br>
-    <a href="/api/{{link.pattern}}/0">{{link.pattern}}/0</a>
-    </li>
-    {% endfor%}
+        {% for link in links %}
+            <li>
+                <a href="/api/{{link.pattern}}">{{link.pattern}}</a>
+                <br>
+                <a href="/api/{{link.pattern}}/0">{{link.pattern}}/0</a>
+            </li>
+        {% endfor%}
     </ul>
 {% endblock %}

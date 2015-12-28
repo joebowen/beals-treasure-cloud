@@ -2,8 +2,9 @@ from django.db import connection
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
 import gmpy
+import json
 
-from models import *  # @UnusedWildImport
+from models import Values, Attempts, Verifys
 import lzstring
 
 
@@ -73,45 +74,42 @@ def faq_donations(request):
 
 
 def getwork(request):
-    m, n, x, uuid = getNewWork(10000, request.GET["username"])
-    response = ""
-    response += str(m)
-    response += "," + str(n)
-    if x != 0:
-        response += "," + str(x)
+    x, y, base, uuid = getNewWork(10000, request.GET["username"])
+    
+    response = {
+        'x': x,
+        'y': y,
+        'base': base,
+        'uuid': uuid
+    };
 
-    response += "," + str(uuid)
-
-    return HttpResponse(response)
+    return HttpResponse(json.dumps(response), content_type="application/json")
 
 
 def getExpValues():
-    count = checkBlock()
-    maxs = findMax()
-    exp_m = maxs + 1
-    exp_n = maxs + 1
-    for x in xrange(3, maxs + 1):
-        for y in xrange(3, maxs + 1):
-            try:
-                count[x][y]
-            except IndexError:
-                exp_m = x
-                exp_n = y
-                return exp_m, exp_n
+    counts = checkBlock()
+    maxs = max(findMaxs())
+    exp_x = maxs
+    for exp_y in xrange(3, maxs + 1):
+        try:
+            counts[exp_x][exp_y]
+        except IndexError:
+            return exp_x, exp_y
 
+    return exp_x, 3
 
 def getNewWork(max_base, user_id):
 
-    base_x = 0
+    base = 0
     value_id = getUnfinishedBlock()
 
     if value_id is None:
-        exp_m, exp_n = getExpValues()
+        exp_x, exp_y = getExpValues()
 
-        values_model = Values(exp_m=exp_m,
-                              exp_n=exp_n,
+        values_model = Values(exp_x=exp_x,
+                              exp_y=exp_y,
                               max_base=max_base,
-                              base_x=base_x)
+                              base=base)
 
         values_model.save()
 
@@ -130,22 +128,22 @@ def getNewWork(max_base, user_id):
 
         AttemptKey = attempt_model.id
 
-    return exp_m, exp_n, base_x, AttemptKey
+    return exp_x, exp_y, base, AttemptKey
 
 
 def checkBlock():
     cursor = connection.cursor()
 
     cursor.execute(
-        '''SELECT COUNT(v.id) as count, a.ValueKey as ValueKey
-            FROM verifys v,
-            attempts a WHERE v.AttemptKey = a.id
-            GROUP BY v.id
-            ORDER BY COUNT(v.id)''')
+        '''SELECT COUNT(verifys.id) as count, attempts.ValueKey as ValueKey
+            FROM verifys,
+            attempts WHERE verifys.AttemptKey = attempts.id
+            GROUP BY verifys.id
+            ORDER BY COUNT(verifys.id)''')
 
     count = [[]]
     for row in cursor.fetchall():
-        count[row['exp_m']][row['exp_n']] = row['count']
+        count[row['exp_x']][row['exp_y']] = row['count']
 
     return count
 
@@ -169,33 +167,23 @@ def getUnfinishedBlock():
     return AttemptKey
 
 
-def findMax():
+def findMaxs():
     cursor = connection.cursor()
 
     cursor.execute(
-        'SELECT MAX(exp_m) as exp_m, MAX(exp_n) as exp_n FROM exp_values')
+        'SELECT MAX(exp_x) as exp_x, MAX(exp_y) as exp_y FROM exp_values')
     row = cursor.fetchone()
 
     if row[0] == None and row[1] == None:
-        return 3
+        return 3, 3
 
-    return max(row[0], row[1])
+    return row[0], row[1]
 
 
 def Populate(request):
-    cursor = connection.cursor()
     count_by = 10
 
-    cursor.execute(
-        'SELECT MAX(exp_m) as exp_m, MAX(exp_n) as exp_n FROM exp_values')
-    row = cursor.fetchone()
-
-    if row[0] == None and row[1] == None:
-        y = 3
-        x = 3
-    else:
-        y = row[0]
-        x = row[1]
+    y, x = findMaxs()
 
     for exp in xrange(1, max(y, x) + count_by):
         try:

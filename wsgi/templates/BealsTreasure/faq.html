@@ -1,63 +1,98 @@
 {% extends "BealsTreasure/bootstrap_dashboard.html" %}
 
+{% load django_bootstrap_breadcrumbs %}
+
 {% block title %}FAQ{% endblock %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "FAQ" "faq" %}
+{% endblock %}
+
 {% block content %}
-<div id="content">
-    <div class="top">
-        <div class="bot">
-            <div class="inner">
-                <div class="wrapper">
-                    <div class="col-2">
-                        <div class="indent">
-                            <h2><h2>Frequently Asked Questions</h2></h2>
-                            <p>
-
-                            <p>Q: <a title="Prize" href="/faq/prize/">What's this about a
-                                prize?</a></p>
-
-                            <p>Q: <a title="Conjecture What?" href="/faq/conjecture-what/">What
-                                is Beal's Conjecture?</a></p>
-
-                            <p>Q: <a title="What if the conjecture is true"
-                                                                 href="/faq/what-if-conjecture-true/">What happens if
-                                Beal's Conjecture is true?</a></p>
-
-                            <p>Q: <a title="Why do you need me?"
-                                                                 href="/faq/why-do-you-need-me/">Why do you need my help
-                                in the search? And what is my computer doing?</a></p>
-
-                            <p>Q: <a title="Will this slow down my computer?"
-                                                                 href="/faq/will-slow-down-my-computer/">Will this slow
-                                down my computer and/or internet?</a></p>
-
-                            <p>Q: <a title="Download data?" href="/faq/download-data/">Why
-                                does the program first need to download data? What is this data anyways?</a></p>
-
-                            <p><span class="swp-breadcrumbs-level">Q:  <a
-                                    title="Is this project really doing what you say?  Or are you a &quot;hacker&quot;?"
-                                    href="/faq/are-you-a-hacker/">Is this project
-                                stealing my information? Or doing anything bad?<br/></a></span></p>
-
-                            <p><span class="swp-breadcrumbs-level">Q:  <a
-                                    title="Do I need to know math?" href="/faq/do-i-need-to-know-math/">Do I need to know
-                                math to help?</a><br/></span></p>
-
-                            <p>Q: <a title="How can I join?" href="/faq/how-can-i-join/">How
-                                can I join the search?</a></p>
-
-                            <p>Q: <a title="I Found Something!"
-                                                                 href="/faq/i-found-something/">I think I found
-                                something! What happens now?</a></p>
-
-                            <p>Q: <a title="Donations" href="/faq/donations/">Can I donate
-                                to the project?</a></p></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
+    <div id="content" class="top bot inner wrapper col-2 indent">
+        <h2>Frequently Asked Questions</h2>
+    
+    
+        <p>
+            Q: 
+            <a title="Prize" href="/faq/prize/">
+                What's this about a prize?
+            </a>
+        </p>
+    
+        <p>
+            Q: 
+            <a title="Conjecture What?" href="/faq/conjecture-what/">
+                What is Beal's Conjecture?
+            </a>
+        </p>
+    
+        <p>
+            Q: 
+            <a title="What if the conjecture is true"
+               href="/faq/what-if-conjecture-true/">
+                What happens if Beal's Conjecture is true?
+            </a>
+        </p>
+    
+        <p>
+            Q: 
+            <a title="Why do you need me?" href="/faq/why-do-you-need-me/">
+                Why do you need my help in the search? And what is my computer doing?
+            </a>
+        </p>
+    
+        <p>
+            Q: 
+            <a title="Will this slow down my computer?"
+               href="/faq/will-slow-down-my-computer/">
+                Will this slow down my computer and/or internet?
+            </a>
+        </p>
+    
+        <p>
+            Q: 
+            <a title="Download data?" href="/faq/download-data/">
+                Why does the program first need to download data? What is this data anyways?
+            </a>
+        </p>
+    
+        <p>
+            Q:  
+            <a title="Is this project stealing my information? Or doing anything bad?"
+               href="/faq/are-you-a-hacker/">
+                Is this project stealing my information? Or doing anything bad?
+            </a>
+        </p>
+    
+        <p>
+            Q:
+            <a title="Do I need to know math?" href="/faq/do-i-need-to-know-math/">
+                Do I need to know math to help?
+            </a>
+        </p>
+    
+        <p>
+            Q: 
+            <a title="How can I join?" href="/faq/how-can-i-join/">
+                How can I join the search?
+            </a>
+        </p>
+    
+        <p>
+            Q: 
+            <a title="I Found Something!" href="/faq/i-found-something/">
+                I think I found something! What happens now?
+            </a>
+        </p>
+    
+        <p>
+            Q: 
+            <a title="Donations" href="/faq/donations/">
+                Can I donate to the project?
+            </a>
+        </p>
     </div>
-</div>
-
 {% endblock %}

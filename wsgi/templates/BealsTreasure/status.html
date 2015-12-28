@@ -1,73 +1,70 @@
 {% extends "BealsTreasure/bootstrap_dashboard.html" %}
 
+{% load django_bootstrap_breadcrumbs %}
+
 {% block title %}Status{% endblock %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Status" "status" %}
+{% endblock %}
+
 {% block content %}
-<div id="content">
-    <div class="top">
-        <div class="bot">
-            <div class="inner">
-                <div class="wrapper">
-                    <div class="col-2">
-                        <div class="indent">
-                            <h2><h2>Network Status</h2></h2>
-                            <p>
 
-                            <div id="blockStyle291Main2" class=" ccm-block-styles">
-                                <div class="ccm-remo-equation">
-                                    <img src="http://www.cyberroadie.org/cgi-bin/mathtex.cgi?A%5Ex%20%2B%20B%5Ey%20%3D%20C%5Ez"
-                                         alt="A^x + B^y = C^z">
-                                </div>
-                            </div>
-                            <div id="blockStyle700Main3" class=" ccm-block-styles">
-
-                                <div id="HTMLBlock700" class="HTMLBlock">
-                                    <LINK href="{{STATIC_URL}}css/graph.css" title="graph" rel="stylesheet"
-                                          type="text/css">
-
-                                    <div id="Reloader" align="center" height="20px" width="100%"></div>
-
-                                    <script type="text/javascript">
-                                        function autoResize(id) {
-                                            document.getElementById(id).height = document.getElementById(id).contentDocument.documentElement.scrollHeight+15; //Chrome
-
-                                            document.getElementById(id).height = document.getElementById(id).contentWindow.document.body.scrollHeight+15; //FF, IE
-                                        }
-
-                                        function loadDoc()
-                                        {
-                                        var xmlhttp;
-                                        if (window.XMLHttpRequest)
-                                          {// code for IE7+, Firefox, Chrome, Opera, Safari
-                                          xmlhttp=new XMLHttpRequest();
-                                          }
-                                        else
-                                          {// code for IE6, IE5
-                                          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-                                          }
-                                        xmlhttp.onreadystatechange=function()
-                                          {
-                                          if (xmlhttp.readyState==4 && xmlhttp.status==200)
-                                            {
-                                            document.getElementById("Reloader").innerHTML=xmlhttp.responseText;
-                                            }
-                                          }
-                                        xmlhttp.open("GET","/completed?date="+new Date().getTime(),true);
-                                        xmlhttp.send();
-                                        autoResize('Reloader');
-                                        }
-
-                                        loadDoc();
-
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
+    
+    <div id="content" class="top bot inner wrapper col-2 indent">
+    
+        <h2>Network Status</h2>
+        
+        <div id="blockStyle291Main2" class="ccm-block-styles ccm-remo-equation">
+            <img src="/static/images/mathtex.cgi.gif" alt="A^x + B^y = C^z">
+        </div>
+        
+        <div id="blockStyle700Main3" class="ccm-block-styles">
+    
+            <div id="HTMLBlock700" class="HTMLBlock">
+                <LINK href="{{STATIC_URL}}css/graph.css" title="graph" rel="stylesheet"
+                      type="text/css">
+    
+                <div id="Reloader" align="center" height="20px" width="100%"></div>
+    
+                <script type="text/javascript">
+                    function autoResize(id) {
+                        document.getElementById(id).height = document.getElementById(id).contentDocument.documentElement.scrollHeight+15; //Chrome
+    
+                        document.getElementById(id).height = document.getElementById(id).contentWindow.document.body.scrollHeight+15; //FF, IE
+                    }
+    
+                    function loadDoc()
+                    {
+                        var xmlhttp;
+                        
+                        if (window.XMLHttpRequest)
+                        {// code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp=new XMLHttpRequest();
+                        }
+                        else
+                        {// code for IE6, IE5
+                            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        
+                        xmlhttp.onreadystatechange=function()
+                        {
+                            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                            {
+                                document.getElementById("Reloader").innerHTML=xmlhttp.responseText;
+                            }
+                        }
+                        
+                        xmlhttp.open("GET","/completed?date="+new Date().getTime(),true);
+                        xmlhttp.send();
+                        autoResize('Reloader');
+                    }
+    
+                    loadDoc();
+                </script>
             </div>
         </div>
     </div>
-</div>
-
 {% endblock %}
