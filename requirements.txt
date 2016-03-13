@@ -36,3 +36,4 @@ djangorestframework==3.0.2
 django-boto==0.3.5
 django-htmlmin==0.7.0
 gmpy
+django==1.7.1
