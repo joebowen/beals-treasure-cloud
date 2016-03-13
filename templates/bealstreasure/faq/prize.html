@@ -1,0 +1,32 @@
+{% extends "bealstreasure/bootstrap_dashboard.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}Prize{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "FAQ" "/faq" %}
+    {% breadcrumb "Prize" "faq_prize" %}
+{% endblock %}
+
+{% block content %}
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
+    <div id="content" class="top bot inner wrapper col-2 indent">
+        <h2>Prize</h2>
+        <p>
+    
+        <p>
+            Andrew Beal is a self made billionaire, mathematical enthusiast
+            and poker player who is willing to put up $1,000,000 
+            to prove or disprove his theory.
+        </p>
+    
+        <p>
+            Note: The prize will be certified and awarded by the 
+            <a href="http://www.ams.org/profession/prizes-awards/ams-supported/beal-prize">
+                American Mathematical Society.
+            </a>
+        </p>
+    </div>
+{% endblock %}

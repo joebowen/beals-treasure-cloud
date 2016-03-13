@@ -1,0 +1,57 @@
+{% extends "bealstreasure/bootstrap_dashboard.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}What is Beal's Conjecture?{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "FAQ" "/faq" %}
+    {% breadcrumb "What is Beal's Conjecture?" "faq_conjecture_what" %}
+{% endblock %}
+
+{% block content %}
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
+    <div id="content" class="top bot inner wrapper col-2 indent">
+        <h2>What is Beal's Conjecture?</h2>
+    
+        <p>
+            Beal's Conjucture was created in 1993 by banker Andrew Beal
+            while investigating number theory. A conjucture is a mathematical idea that appears
+            correct although no one is sure. In our case Beal's Conjucture can become accepted as
+            proven through mathematical proofs or disproven through finding a counterexample. Here
+            on our treasure hunt, we are looking for a counterexample to disprove Beal's
+            Conjucture.
+        </p>
+    
+        <p>Beal's Conjucture relies on a main formula:</p>
+    
+        <p>
+            <img src="{{STATIC_URL}}images/mathtex.cgi.gif" alt="A^x + B^y = C^z">
+        </p>
+    
+        <p>A, B, and C are all positive whole numbers.</p>
+    
+        <p>x, y, and z are all positive whole numbers greater than two.</p>
+    
+        <p>
+            When these conditions are met, Beal's Conjucture says that A,
+            B, and C all have a common prime factor.
+        </p>
+    
+        <p>
+            Having a common prime factor is the same as saying that the
+            greatest common divisor of A, B, and C is one.
+        </p>
+    
+        <p>
+            The program that runs when you click "Search!" is trying lots
+            of various combinations of numbers for A, B, C, x, y, and z.
+        </p>
+    
+        <p>
+            Your computer could be the one to find just the right
+            combination.
+        </p>
+    </div>
+{% endblock %}

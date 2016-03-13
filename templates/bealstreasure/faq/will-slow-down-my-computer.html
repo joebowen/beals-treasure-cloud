@@ -1,0 +1,37 @@
+{% extends "bealstreasure/bootstrap_dashboard.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}Will this slow down my computer and/or network?{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "FAQ" "/faq" %}
+    {% breadcrumb "Will this slow down my computer and/or network?" "faq_will_show_down_my_computer" %}
+{% endblock %}
+
+{% block content %}
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
+    <div id="content" class="top bot inner wrapper col-2 indent">
+        <h2>Will this slow down my computer and/or network?</h2>
+                               
+        <p>
+            This should not slow down your computer and/or internet.
+            There is a small initial download, used to load the data files. Once this initial
+            download of data is done, there are periodic download updates but these shouldn't be
+            enough to cause your internet to slow down. While this project performs calculations on
+            your machine, the website has been designed to minimize any slow downs of the browser
+            and computer.
+        </p>
+    
+        <p>
+            If you have issues with the website, please feel free to
+            <a title="Contact Us" href="/contact/">contact the Captain</a>.
+        </p>
+    
+        <p>
+            Legal: None of this constitutes any sort of warranty or
+            guarantee. We just do our best...
+        </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "bealstreasure/bootstrap_dashboard.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block title %}What happens if Beal's Conjucture is true?{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "FAQ" "/faq" %}
+    {% breadcrumb "What happens if Beal's Conjucture is true?" "faq_what_if_conjecture_true" %}
+{% endblock %}
+
+{% block content %}
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
+    <div id="content" class="top bot inner wrapper col-2 indent">
+        <h2>What happens if Beal's Conjucture is true?</h2>
+    
+        <p>
+            This is a possiblity, but as with real treasure hunts,
+            sometimes the treasure just isn't there. The project will continue until it become too
+            difficult/slow to continue computing with this method, I can no longer afford the
+            webserver and domain (please <a title="Donations" href="/faq/donations/">donate</a> if
+            you like this project), or a solution is found.
+        </p>
+    </div>
+{% endblock %}
