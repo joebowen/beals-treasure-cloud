@@ -35,7 +35,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     
 TEMPLATE_DEBUG = False
 
-TEMPLATE_DIRS = ('app-root/runtime/repo/wsgi/templates/',)
+TEMPLATE_DIRS = ('../templates/',)
 
 ALLOWED_HOSTS = ['*']
 
